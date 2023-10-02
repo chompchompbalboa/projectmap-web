@@ -1,5 +1,5 @@
-import GuestLayout from '@/Layouts/GuestLayout';
-import PrimaryButton from '@/Components/PrimaryButton';
+import GuestLayout from '@/breeze/Layouts/GuestLayout';
+import PrimaryButton from '@/breeze/Components/PrimaryButton';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 

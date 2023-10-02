@@ -1,10 +1,10 @@
 import { useState, PropsWithChildren, ReactNode } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import ApplicationLogo from '@/breeze/Components/ApplicationLogo';
+import Dropdown from '@/breeze/Components/Dropdown';
+import NavLink from '@/breeze/Components/NavLink';
+import ResponsiveNavLink from '@/breeze/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
-import { User } from '@/types';
+import { User } from '@/breeze/types';
 
 export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);

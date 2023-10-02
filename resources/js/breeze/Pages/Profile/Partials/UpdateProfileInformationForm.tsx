@@ -1,11 +1,11 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import InputError from '@/breeze/Components/InputError';
+import InputLabel from '@/breeze/Components/InputLabel';
+import PrimaryButton from '@/breeze/Components/PrimaryButton';
+import TextInput from '@/breeze/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import { FormEventHandler } from 'react';
-import { PageProps } from '@/types';
+import { PageProps } from '@/breeze/types';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }: { mustVerifyEmail: boolean, status?: string, className?: string }) {
     const user = usePage<PageProps>().props.auth.user;

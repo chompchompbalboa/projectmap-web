@@ -1,7 +1,7 @@
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import GuestLayout from '@/breeze/Layouts/GuestLayout';
+import InputError from '@/breeze/Components/InputError';
+import PrimaryButton from '@/breeze/Components/PrimaryButton';
+import TextInput from '@/breeze/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 

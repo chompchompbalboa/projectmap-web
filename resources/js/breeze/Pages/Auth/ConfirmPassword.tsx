@@ -1,9 +1,9 @@
 import { useEffect, FormEventHandler } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import GuestLayout from '@/breeze/Layouts/GuestLayout';
+import InputError from '@/breeze/Components/InputError';
+import InputLabel from '@/breeze/Components/InputLabel';
+import PrimaryButton from '@/breeze/Components/PrimaryButton';
+import TextInput from '@/breeze/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
 
 export default function ConfirmPassword() {

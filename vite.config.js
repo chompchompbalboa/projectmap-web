@@ -6,6 +6,8 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                // CSS
+                'resources/css/index.css',
                 // Laravel Breeze
                 'resources/js/breeze/app.tsx',
                 // Map

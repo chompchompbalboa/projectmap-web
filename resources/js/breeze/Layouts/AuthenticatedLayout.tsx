@@ -4,9 +4,9 @@ import Dropdown from '@/breeze/Components/Dropdown';
 import NavLink from '@/breeze/Components/NavLink';
 import ResponsiveNavLink from '@/breeze/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
-import { User } from '@/breeze/types';
+import { LaravelUser } from '@/breeze/types';
 
-export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
+export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: LaravelUser, header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (

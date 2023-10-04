@@ -1,9 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+use App\Http\Controllers\EdgeController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\NodeController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +20,20 @@ use Inertia\Inertia;
 |
 */
 
-// Breeze Routes
+/*
+|--------------------------------------------------------------------------
+| Views
+|--------------------------------------------------------------------------
+*/
+Route::get('/map/{id}', function () {
+    return view('map');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Laravel Breeze Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -34,4 +51,24 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+/*
+|--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
 require __DIR__.'/auth.php';
+
+/*
+|--------------------------------------------------------------------------
+| API
+|--------------------------------------------------------------------------
+*/
+Route::group([
+    'prefix' => 'api',
+    'middleware' => [ 'auth' ]
+], function () {
+    // Resource Controllers
+    Route::resource('map', MapController::class);
+    Route::resource('node', NodeController::class);
+    Route::resource('edge', EdgeController::class);
+});

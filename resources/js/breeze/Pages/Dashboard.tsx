@@ -2,6 +2,8 @@ import AuthenticatedLayout from '@/breeze/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/breeze/types';
 
+import DashboardMaps from '@/components/DashboardMaps'
+
 export default function Dashboard({ auth }: PageProps) {
     return (
         <AuthenticatedLayout
@@ -12,7 +14,7 @@ export default function Dashboard({ auth }: PageProps) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div>DashboardMaps</div>
+                    <DashboardMaps laravelUser={auth.user} />
                 </div>
             </div>
         </AuthenticatedLayout>

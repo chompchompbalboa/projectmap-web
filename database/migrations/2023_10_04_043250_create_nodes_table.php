@@ -12,8 +12,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nodes', function (Blueprint $table) {
-            $table->id();
+            // Attributes
+            $table->uuid('id')->primary();
+            $table->uuid('mapId');
+            $table->uuid('parentNode')->nullable();
+            $table->string('type', 50);
+            $table->text('label');
+            $table->string('startDate', 10);
+            $table->string('duration', 10);
+            $table->string('endDate', 10);
+            $table->boolean('startDateLocked');
+            $table->boolean('endDateLocked');
+            $table->boolean('startDateVisible');
+            $table->boolean('durationVisible');
+            $table->boolean('endDateVisible');
+            // React Flow Properties
+            $table->boolean('expandParent');
+            $table->smallInteger('positionX');
+            $table->smallInteger('positionY');
+            $table->smallInteger('zIndex');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('mapId')->references('id')->on('maps');
         });
     }
 

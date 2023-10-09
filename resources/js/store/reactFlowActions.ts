@@ -2,19 +2,46 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { applyEdgeChanges, Connection, EdgeChange, XYPosition } from 'reactflow'
+import { 
+  applyEdgeChanges, 
+  applyNodeChanges,
+  Connection, 
+  EdgeChange, 
+  Node as ReactFlowNode,
+  NodeChange, 
+  OnConnectStartParams,
+  XYPosition 
+} from 'reactflow'
 
-import { createEdge, deleteEdge } from './edgeActions'
-import { createNode, updateNodeSuccessorDates } from './nodeActions'
+import { createEdge, deleteEdge } from '@/store/edgeActions'
+import { createNode, deleteNode, updateNode, updateNodeSuccessorDates } from '@/store/nodeActions'
 import { 
   updateReactFlowActiveReducer,
-  updateReactFlowEdgesReducer
-} from './reactFlow'
-import { AppState } from './store'
-import { buildNewId } from '../utils'
+  updateReactFlowEdgesReducer,
+  updateReactFlowNodesReducer
+} from '@/store/reactFlow'
+import { AppState } from '@/store/store'
+import { buildNewId } from '@/utils'
 
 //-----------------------------------------------------------------------------
-// Action
+// On Connect Start
+//-----------------------------------------------------------------------------
+export const onConnectStart = createAsyncThunk<
+  void,
+  { connection: OnConnectStartParams },
+  { state: AppState }
+>('reactFlow/onConnectStart', async ({ connection }, thunkAPI) => {
+    const { dispatch } = thunkAPI
+    dispatch(updateReactFlowActiveReducer({
+      connectingNodeId: connection.nodeId,
+      connectingHandleType: connection.handleType,
+      isConnecting: true
+    }))
+})
+
+
+//-----------------------------------------------------------------------------
+// On Connect
 //-----------------------------------------------------------------------------
 export const onConnect = createAsyncThunk<
   void,
@@ -38,6 +65,9 @@ export const onConnect = createAsyncThunk<
   }
 })
 
+//-----------------------------------------------------------------------------
+// On Connect End
+//-----------------------------------------------------------------------------
 export const onConnectEnd = createAsyncThunk<
   void,
   { nodePosition: XYPosition },
@@ -46,7 +76,6 @@ export const onConnectEnd = createAsyncThunk<
   // Redux
   const { dispatch, getState } = thunkAPI
   const { node, reactFlow } = getState()
-
   // Add a new node any time a connection is dropped without connecting nodes
   if (reactFlow.active.isConnecting && reactFlow.active.connectingNodeId) {
     // Get the newNodeId and connecting nodes parentNodeId
@@ -61,7 +90,7 @@ export const onConnectEnd = createAsyncThunk<
       nodePosition.y -= parentNode.positionX || 0
     }
     // Create the new node
-    dispatch(
+    await dispatch(
       createNode({
         id: newNodeId,
         positionX: nodePosition.x,
@@ -94,6 +123,9 @@ export const onConnectEnd = createAsyncThunk<
   }
 })
 
+//-----------------------------------------------------------------------------
+// On Edges Change
+//-----------------------------------------------------------------------------
 // On Edges Change:
 // 1. Delete edges when the change type is 'remove'
 export const onEdgesChange = createAsyncThunk<
@@ -113,4 +145,51 @@ export const onEdgesChange = createAsyncThunk<
       }
     })
   }
+})
+
+//-----------------------------------------------------------------------------
+// On Nodes Change
+//-----------------------------------------------------------------------------
+export const onNodesChange = createAsyncThunk<
+  void,
+  { changes: NodeChange[] },
+  { state: AppState }
+>('reactFlow/onNodesChange', async ({ changes }, thunkAPI) => {
+  const { dispatch, getState } = thunkAPI
+  const nodes = getState().reactFlow.nodes
+  dispatch(updateReactFlowNodesReducer(applyNodeChanges(changes, nodes)))
+})
+
+//-----------------------------------------------------------------------------
+// On Nodes Delete
+//-----------------------------------------------------------------------------
+export const onNodesDelete = createAsyncThunk<
+  void,
+  { nodes: ReactFlowNode[] },
+  { state: AppState }
+>('reactFlow/onNodesChange', async ({ nodes }, thunkAPI) => {
+  const { dispatch } = thunkAPI
+  nodes.forEach(node => {
+    dispatch(deleteNode({ id: node.id }))
+  })
+})
+
+//-----------------------------------------------------------------------------
+// On Node Drag Stop
+//-----------------------------------------------------------------------------
+// 1. Update node position
+// 2. TODO: Update node parent if the node is dropped inside a group
+export const onNodeDragStop = createAsyncThunk<
+  void,
+  { node: ReactFlowNode },
+  { state: AppState }
+>('reactFlow/onConnectStart', async ({ node }, thunkAPI) => {
+    const { dispatch } = thunkAPI
+    dispatch(updateNode({
+      nodeId: node.id,
+      updates: {
+        positionX: node.position.x,
+        positionY: node.position.y
+      }
+    }))
 })

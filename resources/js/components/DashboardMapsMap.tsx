@@ -1,44 +1,42 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Provider } from 'react-redux'
 import styled from 'styled-components'
 
-import { LaravelUser } from '@/breeze/types'
-
-import { store } from '@/store/store'
-
-import CreateMap from '@/components/CreateMap'
-import DashboardMapsMap from '@/components/DashboardMapsMap'
+import { Map } from '@/store/map'
 
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
 type Props = {
-  laravelUser: LaravelUser
+  map: Map
 }
 
 //-----------------------------------------------------------------------------
 // Componentadsf
 //-----------------------------------------------------------------------------
-const DashboardMaps = ({ laravelUser }: Props): JSX.Element => {
+const DashboardMaps = ({ map }: Props): JSX.Element => {
   return (
-    <Provider store={store}>
-      <Container>
-        {laravelUser.maps.map(map => 
-          <DashboardMapsMap key={map.id} map={map}/>
-        )}
-        <CreateMap userId={laravelUser.id} />
+      <Container
+        href={'/map/' + map.id}
+        target='_blank'>
+        {map.name}
       </Container>
-  </Provider>
   )
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div`
+const Container = styled.a`
   display: flex;
+  border: 1px solid gray;
+  border-radius: 7px;
+  padding: 10px;
+  background: white;
+  &:hover {
+    background: rgb(250,250,250);
+  }
 `
 
 export default DashboardMaps

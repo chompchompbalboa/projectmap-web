@@ -2,29 +2,35 @@
 // Imports
 //-----------------------------------------------------------------------------
 import axios from '@/api/axios'
-import { Edge } from '@/store/edge'
-import { Map } from '@/store/map'
 import { Node } from '@/store/node'
-import { User } from '@/store/user'
 
 //-----------------------------------------------------------------------------
-// Create Map
+// Create Node
 //-----------------------------------------------------------------------------
-export const createMap = ({ userId }: {
-  userId: User['id']
-}) => {
-  return axios.post<Map>('/api/map/', { userId })
+export const createNode = (
+  node: Node
+) => {
+  return axios.post<Node>('/api/node/', node)
 }
 
 //-----------------------------------------------------------------------------
-// Get Map
+// Delete Node
 //-----------------------------------------------------------------------------
-export const getMap = ({ mapId }: {
-  mapId: Map['id']
+export const deleteNode = (
+  nodeId: Node['id']
+) => {
+  return axios.delete<Node>('/api/node/' + nodeId)
+}
+
+//-----------------------------------------------------------------------------
+// Update Node
+//-----------------------------------------------------------------------------
+export const updateNode = ({
+  nodeId,
+  updates
+}: {
+  nodeId: Node['id'],
+  updates: Partial<Node>
 }) => {
-  return axios.get<{
-    map: Map,
-    mapNodes: Node[],
-    mapEdges: Edge[]
-  }>('/api/map/' + mapId)
+  return axios.patch<Node>('/api/node/' + nodeId, updates)
 }

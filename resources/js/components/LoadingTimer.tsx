@@ -1,36 +1,39 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Provider } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { LaravelUser } from '@/breeze/types'
-
-import { store } from '@/store/store'
-
-import CreateMap from '@/components/CreateMap'
-import DashboardMapsMap from '@/components/DashboardMapsMap'
+import useInterval from '@/utils/useInterval'
 
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-type Props = {
-  laravelUser: LaravelUser
+interface Props {
+  fromId: string
 }
 
 //-----------------------------------------------------------------------------
-// Componentadsf
+// Component
 //-----------------------------------------------------------------------------
-const DashboardMaps = ({ laravelUser }: Props): JSX.Element => {
+const LoadingTimer = ({
+  fromId
+}: Props) => {
+  
+  const [ time, setTime ] = useState(0)
+  
+  useEffect(() => {
+    setTime(0)
+  }, [ fromId ])
+  
+  useInterval(() => {
+    setTime(time => time + 10)
+  }, 10)
+  
   return (
-    <Provider store={store}>
-      <Container>
-        {laravelUser.maps.map(map => 
-          <DashboardMapsMap key={map.id} map={map}/>
-        )}
-        <CreateMap userId={laravelUser.id} />
-      </Container>
-  </Provider>
+    <Container>
+      <Time>{(time / 1000).toFixed(2)} seconds</Time>
+    </Container>
   )
 }
 
@@ -38,7 +41,16 @@ const DashboardMaps = ({ laravelUser }: Props): JSX.Element => {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  opacity: 0.8;
 `
 
-export default DashboardMaps
+const Time = styled.div``
+
+export default LoadingTimer

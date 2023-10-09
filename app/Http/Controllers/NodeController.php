@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Edge;
 use App\Models\Node;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class NodeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newNode = Node::create($request->all());
+        return $newNode;
     }
 
     /**
@@ -52,7 +54,7 @@ class NodeController extends Controller
      */
     public function update(Request $request, Node $node)
     {
-        //
+        return $node->fill($request->all())->save();
     }
 
     /**
@@ -60,6 +62,10 @@ class NodeController extends Controller
      */
     public function destroy(Node $node)
     {
-        //
+        // Destroy any edges connected to the node
+        Edge::where('source', $node->id)->delete();
+        Edge::where('target', $node->id)->delete();
+        // Destroy the node
+        return Node::destroy($node->id);
     }
 }

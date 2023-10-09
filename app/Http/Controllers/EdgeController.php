@@ -28,7 +28,8 @@ class EdgeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newEdge = Edge::create($request->all());
+        return $newEdge;
     }
 
     /**
@@ -60,6 +61,6 @@ class EdgeController extends Controller
      */
     public function destroy(Edge $edge)
     {
-        //
+        return Edge::destroy($edge->id);
     }
 }

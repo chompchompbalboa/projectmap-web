@@ -8,17 +8,12 @@ import { Map } from './map'
 // Types
 //-----------------------------------------------------------------------------
 export interface ActiveSliceState {
-  activeMapId: Map['id']
+  activeMapId: Map['id'] | undefined
 }
 
 //-----------------------------------------------------------------------------
 // Local Storage
 //-----------------------------------------------------------------------------
-// Clear Local Storage
-const clearLocalStorage: () => void = () => {
-  localStorage.removeItem('activeMapId')
-}
-
 // Save State To Local Storage
 const saveStateToLocalStorage: (state: ActiveSliceState) => void = (state) => {
   localStorage.setItem('activeMapId', JSON.stringify(state.activeMapId))
@@ -26,7 +21,7 @@ const saveStateToLocalStorage: (state: ActiveSliceState) => void = (state) => {
 
 // Initial State
 const initialState: ActiveSliceState = {
-  activeMapId: 'defaultMap'
+  activeMapId: undefined
 }
 
 //-----------------------------------------------------------------------------

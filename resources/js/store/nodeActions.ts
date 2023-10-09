@@ -2,33 +2,46 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { DateTime, Duration } from 'luxon'
-import { createAsyncThunk, current } from '@reduxjs/toolkit'
-import { XYPosition } from 'reactflow'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+
+import api from '@/api'
 
 import {
   buildNewNode,
+  convertNodeToReactFlowNode,
   createNodeReducer,
   Node,
+  NodeSliceState,
+  updateAllNodesReducer,
   updateNodeReducer
-} from './node'
-import { createReactFlowNodeReducer } from './reactFlow'
-import { AppState } from './store'
-import { formatDate } from '../utils'
+} from '@/store/node'
+import { 
+  createReactFlowNodeReducer, 
+  ReactFlowSliceState,
+  updateReactFlowNodesReducer
+} from '@/store/reactFlow'
+import { AppState } from '@/store/store'
+import { formatDate } from '@/utils'
 
 //-----------------------------------------------------------------------------
 // Actions
 //-----------------------------------------------------------------------------
 // Create Node
-export const createNode = createAsyncThunk(
+export const createNode = createAsyncThunk<
+  void,
+  Partial<Node>,
+  { state: AppState }
+>(
   'node/createNode',
   async (
-    nodeData: Partial<Node>,
+    nodeData,
     thunkAPI
   ) => {
-    const { dispatch } = thunkAPI
+    const { getState, dispatch } = thunkAPI
 
     // Build the new node
     const newNode = buildNewNode({
+      mapId: getState().active.activeMapId,
       ...nodeData
     })
 
@@ -37,6 +50,47 @@ export const createNode = createAsyncThunk(
 
     // Add the new node to the reactFlow slice
     dispatch(createReactFlowNodeReducer(newNode))
+
+    // Send the newly created node to the api
+    api.node.createNode(newNode) // TODO: Add an error message if the node is not created
+  }
+)
+
+// Delete Node
+export const deleteNode = createAsyncThunk<
+  void,
+  { id: Node['id'] },
+  { state: AppState }
+>(
+  'node/deleteNode',
+  async ({ id }, thunkAPI) => {
+    api.node.deleteNode(id)
+  }
+)
+
+// Load Nodes
+export const loadNodes = createAsyncThunk(
+  'node/loadNodes',
+  async (
+    {
+      nodes
+    }: {
+      nodes: Node[]
+    },
+    thunkAPI
+  ) => {
+    const { dispatch } = thunkAPI
+    // Create Nodes to load
+    const nodesToLoad: NodeSliceState['allNodes'] = {}
+    const reactFlowNodesToLoad: ReactFlowSliceState['nodes'] = []
+    nodes.forEach(node => {
+      nodesToLoad[node.id] = node
+      reactFlowNodesToLoad.push(convertNodeToReactFlowNode(node))
+    })
+    // Update allNodes
+    dispatch(updateAllNodesReducer({ updates: nodesToLoad }))
+    // Update reactFlow nodes
+    dispatch(updateReactFlowNodesReducer(reactFlowNodesToLoad))
   }
 )
 
@@ -46,10 +100,12 @@ export const updateNode = createAsyncThunk(
   async (
     {
       nodeId,
-      updates
+      updates,
+      skipApiUpdate = false
     }: {
       nodeId: Node['id']
       updates: Partial<Node>
+      skipApiUpdate?: boolean
     },
     thunkAPI
   ) => {
@@ -60,6 +116,9 @@ export const updateNode = createAsyncThunk(
         updates
       })
     )
+    if (!skipApiUpdate) {
+      api.node.updateNode({ nodeId, updates })
+    }
   }
 )
 
@@ -97,9 +156,10 @@ export const updateNodeDates = createAsyncThunk<
   }
   if (updates.duration) {
     const duration = Duration.fromISO(nextDates.duration as string)
-    nextDates.endDate = DateTime.fromISO(nextDates.startDate as string)
+    nextDates.endDate = formatDate(DateTime.fromISO(nextDates.startDate as string)
       .plus(duration)
       .toISO() as string
+    )
   }
   if (updates.endDate) {
     const duration = Duration.fromISO(nextDates.duration as string)
@@ -112,7 +172,7 @@ export const updateNodeDates = createAsyncThunk<
 
   // Add the new node to the node slice
   dispatch(
-    updateNodeReducer({
+    updateNode({
       nodeId,
       updates: nextDates
     })

@@ -35,9 +35,13 @@ class MapController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Map $map)
     {
-        //
+        return [
+            'map' => $map,
+            'mapNodes' => $map->nodes,
+            'mapEdges' => $map->edges
+        ];
     }
 
     /**

@@ -2,9 +2,11 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { buildNewId } from '../utils'
-import { Node } from './node'
 import { Edge as ReactFlowEdge } from 'reactflow'
+
+import { Map } from '@/store/map'
+import { Node } from '@/store/node'
+import { buildNewId } from '@/utils'
 
 //-----------------------------------------------------------------------------
 // Types
@@ -14,6 +16,7 @@ export interface AllEdges {
 }
 export interface Edge {
   id: string
+  mapId: Map['id']
   source: Node['id']
   target: Node['id']
 }
@@ -38,17 +41,15 @@ const saveStateToLocalStorage: (state: EdgeSliceState) => void = (state) => {
 // Build New Edge
 export const buildNewEdge = ({
   id,
+  mapId,
   source,
   target
-}: {
-  id: Edge['id'] | undefined
-  source: Node['id']
-  target: Node['id']
-}): Edge => {
+}: Partial<Edge>): Edge => {
   return {
     id: id || buildNewId(),
-    source: source,
-    target: target
+    mapId: mapId || '',
+    source: source || '',
+    target: target || ''
   }
 }
 
@@ -94,12 +95,24 @@ export const edgeSlice = createSlice({
       } = state.allEdges
       state.allEdges = nextAllEdges
       saveStateToLocalStorage(state)
-    }
+    },
+    updateAllEdgesReducer: (
+      state,
+      action: PayloadAction<{
+        updates: EdgeSliceState['allEdges']
+      }>
+    ) => {
+      state.allEdges = {
+        ...state.allEdges,
+        ...action.payload.updates
+      }
+    },
   }
 })
 
 export const {
   createEdgeReducer,
-  deleteEdgeReducer
+  deleteEdgeReducer,
+  updateAllEdgesReducer
 } = edgeSlice.actions
 export default edgeSlice.reducer

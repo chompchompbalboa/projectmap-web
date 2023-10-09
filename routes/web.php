@@ -27,7 +27,7 @@ use App\Http\Controllers\ProfileController;
 */
 Route::get('/map/{id}', function () {
     return view('map');
-});
+})->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------

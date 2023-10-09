@@ -2,6 +2,7 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { DateTime, Duration } from 'luxon'
+import { v4 as uuid } from 'uuid'
 
 //-----------------------------------------------------------------------------
 // Utils
@@ -9,7 +10,7 @@ import { DateTime, Duration } from 'luxon'
 
 // Build New Id
 export const buildNewId: () => string = () => {
-  return Math.random() + ''
+  return uuid()
 }
 
 // Format Date

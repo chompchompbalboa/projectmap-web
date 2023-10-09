@@ -7,16 +7,9 @@ import styled from 'styled-components'
 import ToolbarNode from './ToolbarNode'
 
 //-----------------------------------------------------------------------------
-// Props
-//-----------------------------------------------------------------------------
-type Props = {
-  resetMap(): void
-}
-
-//-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-const Toolbar = ({ resetMap }: Props): JSX.Element => {
+const Toolbar = (): JSX.Element => {
   const onDragStart = (
     event: React.DragEvent,
     nodeType: Node['type'] = 'mapNode'
@@ -40,7 +33,6 @@ const Toolbar = ({ resetMap }: Props): JSX.Element => {
         >
           Group
         </Action>
-        <Action onClick={resetMap}>Reset</Action>
       </Actions>
       <ToolbarNode />
     </Panel>

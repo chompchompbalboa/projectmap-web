@@ -4,34 +4,25 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 //-----------------------------------------------------------------------------
-// Map
+// Types
 //-----------------------------------------------------------------------------
-export interface AllMaps {
-  [mapId: Map['id']]: Map
-}
 export interface Map {
   id: string
+  name: string
 }
 
+//-----------------------------------------------------------------------------
+// Slice State
+//-----------------------------------------------------------------------------
 export interface MapSliceState {
-  allMaps: AllMaps
+  allMaps: {[mapId: Map['id']]: Map}
 }
 
 //-----------------------------------------------------------------------------
-// Local Storage
-//-----------------------------------------------------------------------------
-// Save State To Local Storage
-const saveStateToLocalStorage: (state: MapSliceState) => void = (state) => {
-  localStorage.setItem('allMaps', JSON.stringify(state.allMaps))
-}
-
 // Initial State
+//-----------------------------------------------------------------------------
 const initialState: MapSliceState = {
-  allMaps: {
-    defaultMap: {
-      id: 'defaultMap'
-    }
-  }
+  allMaps: {}
 }
 
 //-----------------------------------------------------------------------------
@@ -41,7 +32,8 @@ export const mapSlice = createSlice({
   name: 'node',
   initialState,
   reducers: {
-    createMapReducer: (
+    // Load Map
+    loadMapReducer: (
       state,
       action: PayloadAction<Map>
     ) => {
@@ -50,12 +42,14 @@ export const mapSlice = createSlice({
         ...state.allMaps,
         [newMap.id]: newMap
       }
-      saveStateToLocalStorage(state)
     }
   }
 })
 
+//-----------------------------------------------------------------------------
+// Exports
+//-----------------------------------------------------------------------------
 export const {
-  createMapReducer
+  loadMapReducer
 } = mapSlice.actions
 export default mapSlice.reducer

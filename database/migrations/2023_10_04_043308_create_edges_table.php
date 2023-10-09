@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('edges', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->uuid('mapId');
+            $table->uuid('source');
+            $table->uuid('target');
             $table->timestamps();
+            // Foreign keys
+            $table->foreign('mapId')->references('id')->on('maps');
+            $table->foreign('source')->references('id')->on('nodes');
+            $table->foreign('target')->references('id')->on('nodes');
         });
     }
 

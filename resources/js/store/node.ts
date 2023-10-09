@@ -5,16 +5,15 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { DateTime, Duration } from 'luxon'
 import { Node as ReactFlowNode } from 'reactflow'
 
-import { formatDate } from '../utils'
+import { Map } from '@/store/map'
+import { buildNewId, formatDate } from '@/utils'
 
 //-----------------------------------------------------------------------------
 // Types
 //-----------------------------------------------------------------------------
-export interface AllNodes {
-  [nodeId: Node['id']]: Node
-}
 export interface Node {
   id: string
+  mapId: Map['id']
   type: NodeType
   // App Properties
   label: string
@@ -37,21 +36,27 @@ export interface Node {
 }
 export type NodeType = 'mapGroup' | 'mapNode'
 
+//-----------------------------------------------------------------------------
+// Slice State
+//-----------------------------------------------------------------------------
 export interface NodeSliceState {
-  allNodes: AllNodes
+  allNodes: {[nodeId: Node['id']]: Node}
+}
+
+//-----------------------------------------------------------------------------
+// Initial State
+//-----------------------------------------------------------------------------
+const initialState: NodeSliceState = {
+  allNodes: {}
 }
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-// Build New Id
-const buildNewId: () => Node['id'] = () => {
-  return Math.random() + ''
-}
-
 // Build New Node
 export const buildNewNode = ({
   id,
+  mapId,
   parentNode,
   positionX,
   positionY,
@@ -70,6 +75,7 @@ export const buildNewNode = ({
 
   return {
     id: id || buildNewId(),
+    mapId: mapId || '',
     type: type || 'mapNode',
     label: 'Label',
     startDate: startDate || formatDate(defaultStartDate.toISO()),
@@ -82,7 +88,7 @@ export const buildNewNode = ({
     endDateVisible: true,
     predecessors: predecessors || [],
     successors: successors || [],
-    parentNode: parentNode,
+    parentNode: parentNode || '',
     expandParent: true,
     positionX: positionX || 0,
     positionY: positionY || 0,
@@ -102,18 +108,6 @@ export const convertNodeToReactFlowNode = (node: Node): ReactFlowNode => {
   }
 }
 
-// Initial State
-const initialState: NodeSliceState = {
-  allNodes: localStorage.getItem('allNodes')
-    ? (JSON.parse(localStorage.getItem('allNodes') as string) as NodeSliceState['allNodes'])
-    : {}
-}
-
-// Save State To Local Storage
-const saveStateToLocalStorage: (state: NodeSliceState) => void = (state) => {
-  localStorage.setItem('allNodes', JSON.stringify(state.allNodes))
-}
-
 //-----------------------------------------------------------------------------
 // Reducers
 //-----------------------------------------------------------------------------
@@ -130,7 +124,17 @@ export const nodeSlice = createSlice({
         ...state.allNodes,
         [newNode.id]: newNode
       }
-      saveStateToLocalStorage(state)
+    },
+    updateAllNodesReducer: (
+      state,
+      action: PayloadAction<{
+        updates: NodeSliceState['allNodes']
+      }>
+    ) => {
+      state.allNodes = {
+        ...state.allNodes,
+        ...action.payload.updates
+      }
     },
     updateNodeReducer: (
       state,
@@ -143,13 +147,16 @@ export const nodeSlice = createSlice({
         ...state.allNodes[action.payload.nodeId],
         ...action.payload.updates
       }
-      saveStateToLocalStorage(state)
     }
   }
 })
 
+//-----------------------------------------------------------------------------
+// Exports
+//-----------------------------------------------------------------------------
 export const {
   createNodeReducer,
+  updateAllNodesReducer,
   updateNodeReducer
 } = nodeSlice.actions
 export default nodeSlice.reducer

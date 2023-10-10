@@ -20,11 +20,11 @@ export interface Node {
   startDate: string
   duration: string
   endDate: string
-  startDateLocked: boolean
-  endDateLocked: boolean
-  startDateVisible: boolean
-  durationVisible: boolean
-  endDateVisible: boolean
+  isStartDateLocked: boolean
+  isEndDateLocked: boolean
+  isStartDateVisible: boolean
+  isDurationVisible: boolean
+  isEndDateVisible: boolean
   predecessors: Node['id'][]
   successors: Node['id'][]
   // React Flow Properties
@@ -81,11 +81,11 @@ export const buildNewNode = ({
     startDate: startDate || formatDate(defaultStartDate.toISO()),
     duration: duration || defaultDuration.toISO() as string,
     endDate: endDate || formatDate(defaultEndDate.toISO()),
-    startDateLocked: false,
-    endDateLocked: false,
-    startDateVisible: true,
-    durationVisible: true,
-    endDateVisible: true,
+    isStartDateLocked: false,
+    isEndDateLocked: false,
+    isStartDateVisible: true,
+    isDurationVisible: true,
+    isEndDateVisible: true,
     predecessors: predecessors || [],
     successors: successors || [],
     parentNode: parentNode || '',

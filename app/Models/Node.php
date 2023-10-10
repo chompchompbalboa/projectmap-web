@@ -23,6 +23,19 @@ class Node extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'isStartDateLocked' => 'boolean',
+        'isEndDateLocked' => 'boolean',
+        'isStartDateVisible' => 'boolean',
+        'isDurationVisible' => 'boolean',
+        'isEndDateVisible' => 'boolean',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -36,11 +49,11 @@ class Node extends Model
         'startDate',
         'duration',
         'endDate',
-        'startDateLocked',
-        'endDateLocked',
-        'startDateVisible',
-        'durationVisible',
-        'endDateVisible',
+        'isStartDateLocked',
+        'isEndDateLocked',
+        'isStartDateVisible',
+        'isDurationVisible',
+        'isEndDateVisible',
         'expandParent',
         'positionX',
         'positionY',

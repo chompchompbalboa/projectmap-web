@@ -36,13 +36,13 @@ const MapNodeDates = ({ nodeId }: Props): JSX.Element => {
     (state: AppState) => state.node.allNodes[nodeId].endDate
   )
   const nodeStartDateLocked = useSelector(
-    (state: AppState) => state.node.allNodes[nodeId].startDateLocked
+    (state: AppState) => state.node.allNodes[nodeId].isStartDateLocked
   )
   const nodeStartDateVisible = useSelector(
-    (state: AppState) => state.node.allNodes[nodeId].startDateVisible
+    (state: AppState) => state.node.allNodes[nodeId].isStartDateVisible
   )
   const nodeEndDateVisible = useSelector(
-    (state: AppState) => state.node.allNodes[nodeId].endDateVisible
+    (state: AppState) => state.node.allNodes[nodeId].isEndDateVisible
   )
 
   // State
@@ -100,7 +100,7 @@ const MapNodeDates = ({ nodeId }: Props): JSX.Element => {
     dispatch(
       updateNode({
         nodeId,
-        updates: { startDateLocked: nextStartDateLocked }
+        updates: { isStartDateLocked: nextStartDateLocked }
       })
     )
   }

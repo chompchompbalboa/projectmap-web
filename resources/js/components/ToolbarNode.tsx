@@ -43,13 +43,13 @@ const ToolbarNode = (): JSX.Element => {
       <ToolbarNodeData
         onVisibilityClick={(): void => {
           if (selectedNodes.length > 0) {
-            const nextStartDateVisible = !selectedNodes[0].startDateVisible
+            const nextStartDateVisible = !selectedNodes[0].isStartDateVisible
             selectedNodes.forEach((currentSelectedNode) => {
               dispatch(
                 updateNode({
                   nodeId: currentSelectedNode.id,
                   updates: {
-                    startDateVisible: nextStartDateVisible
+                    isStartDateVisible: nextStartDateVisible
                   }
                 })
               )
@@ -62,13 +62,13 @@ const ToolbarNode = (): JSX.Element => {
       <ToolbarNodeData
         onVisibilityClick={(): void => {
           if (selectedNodes.length > 0) {
-            const nextEndDateVisible = !selectedNodes[0].endDateVisible
+            const nextEndDateVisible = !selectedNodes[0].isEndDateVisible
             selectedNodes.forEach((currentSelectedNode) => {
               dispatch(
                 updateNode({
                   nodeId: currentSelectedNode.id,
                   updates: {
-                    endDateVisible: nextEndDateVisible
+                    isEndDateVisible: nextEndDateVisible
                   }
                 })
               )

@@ -21,11 +21,11 @@ return new class extends Migration
             $table->string('startDate', 10);
             $table->string('duration', 10);
             $table->string('endDate', 10);
-            $table->boolean('startDateLocked');
-            $table->boolean('endDateLocked');
-            $table->boolean('startDateVisible');
-            $table->boolean('durationVisible');
-            $table->boolean('endDateVisible');
+            $table->boolean('isStartDateLocked');
+            $table->boolean('isEndDateLocked');
+            $table->boolean('isStartDateVisible');
+            $table->boolean('isDurationVisible');
+            $table->boolean('isEndDateVisible');
             // React Flow Properties
             $table->boolean('expandParent');
             $table->smallInteger('positionX');

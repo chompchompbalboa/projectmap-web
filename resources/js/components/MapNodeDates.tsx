@@ -106,7 +106,7 @@ const MapNodeDates = ({ nodeId }: Props): JSX.Element => {
   }
 
   return (
-    <Container>
+    <Container className="nodrag">
       <Dates>
         {false && ( // Commenting the date lock out while actively working on the UI
           <DateLock

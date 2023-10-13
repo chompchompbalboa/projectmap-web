@@ -207,7 +207,7 @@ export const updateNodeSuccessorDates = createAsyncThunk<
     // Get the successor node
     const successorNode = getState().node.allNodes[successorNodeId]
     // If the successor node's start date isn't locked
-    if (!successorNode.startDateLocked) {
+    if (!successorNode.isStartDateLocked) {
       // Get the latest end date of all the successor node's predcessors
       const latestPredecessorsEndDate = formatDate(
         successorNode.predecessors.reduce(

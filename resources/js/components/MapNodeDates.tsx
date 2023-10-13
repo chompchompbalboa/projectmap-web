@@ -2,16 +2,18 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { useEffect, useState } from 'react'
-import { Node } from '../store/node'
+import { Node } from '@/store/node'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, AppState } from '../store/store'
-import { updateNode, updateNodeDates } from '../store/nodeActions'
+import { AppDispatch, AppState } from '@/store/store'
+import { updateNode, updateNodeDates } from '@/store/nodeActions'
 import {
   formatDate,
   getHumanDurationFromISO,
   getISODurationFromHuman
-} from '../utils'
+} from '@/utils'
+
+import MapNodeDatesDatepicker from '@/components/MapNodeDatesDatepicker'
 
 //-----------------------------------------------------------------------------
 // Props
@@ -118,20 +120,16 @@ const MapNodeDates = ({ nodeId }: Props): JSX.Element => {
           </DateLock>
         )}
         {nodeStartDateVisible &&
-          <Date
-            type="date"
-            style={{ marginRight: '2px', textAlign: 'right' }}
+          <MapNodeDatesDatepicker
             value={formatDate(nodeStartDate)}
-            onChange={(e): void => handleStartDateChange(e.target.value)}
+            onDateChange={(nextDate): void => handleStartDateChange(nextDate)}
             />
         }
         {(nodeStartDateVisible || nodeEndDateVisible) && <DateArrow>→</DateArrow>}
         {nodeEndDateVisible && (
-          <Date
-            type="date"
-            style={{ marginLeft: '2px', textAlign: 'left' }}
+          <MapNodeDatesDatepicker
             value={formatDate(nodeEndDate)}
-            onChange={(e): void => handleEndDateChange(e.target.value)}
+            onDateChange={(nextDate): void => handleEndDateChange(nextDate)}
           />
         )}
       </Dates>
@@ -160,20 +158,8 @@ const Dates = styled.div`
   align-items: center;
   justify-content: center;
 `
-const Date = styled.input`
-  margin: 0;
-  padding: 0;
-  border: none;
-  font-size: 12px;
-  font-family: inherit;
-  &:focus {
-    outline: none;
-  }
-  &::-webkit-calendar-picker-indicator {
-    display: none;
-  }
-`
 const DateArrow = styled.div`
+  padding: 0 2px;
   font-size: 10px;
 `
 const DateLock = styled.div`

@@ -9,6 +9,7 @@
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.5",
         "luxon": "^3.4.3",
+        "react-icons": "^4.11.0",
         "react-redux": "^8.1.2",
         "reactflow": "^11.8.2",
         "styled-components": "^6.0.7",

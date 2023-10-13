@@ -13,11 +13,13 @@ export const buildNewId: () => string = () => {
   return uuid()
 }
 
+// Date Format
+export const dateFormat = 'yyyy-MM-dd'
+
 // Format Date
 export const formatDate: (
   unformattedISODate: string | null | undefined
 ) => string = (unformattedISODate) => {
-  const dateFormat = 'yyyy-MM-dd'
   return unformattedISODate
     ? DateTime.fromISO(unformattedISODate).toFormat(dateFormat)
     : DateTime.now().toFormat(dateFormat)

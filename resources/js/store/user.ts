@@ -8,9 +8,7 @@ import { LaravelUser } from '@/breeze/types'
 //-----------------------------------------------------------------------------
 // Types
 //-----------------------------------------------------------------------------
-export interface User extends LaravelUser {
-  maps: Map['id'][]
-}
+export interface User extends LaravelUser {}
 
 export interface UserSliceState extends User {}
 
@@ -18,7 +16,7 @@ export interface UserSliceState extends User {}
 // Initial state
 //-----------------------------------------------------------------------------
 const initialState: UserSliceState = {
-  id: 0,
+  id: '',
   name: '',
   email: '',
   email_verified_at: '',

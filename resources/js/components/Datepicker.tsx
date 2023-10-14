@@ -53,24 +53,20 @@ export const Datepicker = ({
 
   while(firstDayOfCurrentMonthWeekday > 0 && firstDayOfCurrentMonthWeekday !== 7) {
     currentMonthDatesArray.push(
-      currentMonth.set({ day: 1 }).minus({ days: firstDayOfCurrentMonthWeekday }).day
+      currentMonth.set({ day: 1 }).minus({ days: firstDayOfCurrentMonthWeekday })
     )
     firstDayOfCurrentMonthWeekday--
   }
   for(let currentDate = 1; currentDate <= daysInCurrentMonth; currentDate++) {
-    currentMonthDatesArray.push(currentDate)
+    currentMonthDatesArray.push(currentMonth.set({ day: currentDate }))
   }
   while(lastDayOfCurrentMonthWeekday + 1 <= 7) {
     currentMonthDatesArray.push(
-      currentMonth.set({ day: daysInCurrentMonth }).plus({ days: dayInNextMonth }).day
+      currentMonth.set({ day: daysInCurrentMonth }).plus({ days: dayInNextMonth })
     )
     lastDayOfCurrentMonthWeekday++
     dayInNextMonth++
   }
-
-  // Are Value Or Today In Current Month
-  const isValueInCurrentMonth = currentMonth.year === value.year && currentMonth.month === value.month
-  const isTodayInCurrentMonth = currentMonth.year === today.year && currentMonth.month === today.month
 
   return (
     <Container
@@ -101,11 +97,11 @@ export const Datepicker = ({
           {currentMonthDatesArray.map((currentDate, index) =>
             <DatepickerDate
               key={index}
-              $isEmpty={currentDate === null}
-              $isSelected={isValueInCurrentMonth && currentDate === value.day}
-              $isTodaysDate={isTodayInCurrentMonth && currentDate === today.day}
-              onClick={() => onDateChange(currentMonth.set({ day: currentDate || 1 }).toFormat(dateFormat))}>
-              {currentDate}
+              $isAdjacentMonth={currentDate.month !== currentMonth.month}
+              $isSelected={currentDate.toFormat(dateFormat) === value.toFormat(dateFormat)}
+              $isTodaysDate={currentDate.toFormat(dateFormat) === today.toFormat(dateFormat)}
+              onClick={() => onDateChange(currentDate.toFormat(dateFormat))}>
+              {currentDate.day}
             </DatepickerDate>
           )}
         </DatepickerDates>
@@ -168,14 +164,14 @@ const DatepickerDate = styled.div<DatepickerDateProps>`
   align-items: center;
   border-radius: 10px;
   background-color: ${ ({ $isSelected, $isTodaysDate }: DatepickerDateProps) => $isSelected ? 'rgb(80, 110, 200)' : ($isTodaysDate ? 'rgb(238, 238, 238)' : 'transparent')};
-  color: ${ ({ $isSelected }: DatepickerDateProps) => $isSelected ? 'white' : 'inherit'};
+  color: ${ ({ $isAdjacentMonth, $isSelected }: DatepickerDateProps) => $isSelected ? 'white' : ($isAdjacentMonth ? 'rgb(165, 165, 165)' : 'inherit')};
   font-weight: ${ ({ $isSelected, $isTodaysDate }: DatepickerDateProps) => $isTodaysDate || $isSelected ? 'bold' : 'inherit'};
   &:hover {
-    background-color: ${ ({ $isEmpty, $isSelected }: DatepickerDateProps) => $isSelected ? 'rgb(80, 110, 200)' : ($isEmpty ? 'transparent' : 'rgb(238, 238, 238)')};
+    background-color: ${ ({ $isSelected }: DatepickerDateProps) => $isSelected ? 'rgb(80, 110, 200)' : 'rgb(238, 238, 238)'};
   }
 `
 interface DatepickerDateProps {
-  $isEmpty: boolean
+  $isAdjacentMonth: boolean
   $isSelected: boolean
   $isTodaysDate: boolean
 }

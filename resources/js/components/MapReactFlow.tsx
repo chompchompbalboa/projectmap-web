@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ReactFlow, {
   Background,
   Controls,
+  ConnectionLineType,
   Node as ReactFlowNode,
   OnConnect,
   OnConnectStart,
@@ -160,6 +161,7 @@ function MapReactFlow({
     <>
       <div ref={reactFlowWrapper} style={{ width: '100vw', height: '100vh' }}>
         <ReactFlow
+          connectionLineType={ConnectionLineType.Bezier}
           nodeTypes={nodeTypes}
           nodes={reactflowNodes}
           edges={reactflowEdges}

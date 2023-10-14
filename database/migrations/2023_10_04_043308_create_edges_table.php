@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('edges', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('mapId');
+            $table->string('type', 20);
             $table->uuid('source');
             $table->uuid('target');
             $table->timestamps();

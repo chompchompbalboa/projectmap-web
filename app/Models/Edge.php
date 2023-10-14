@@ -19,6 +19,7 @@ class Edge extends Model
     protected $fillable = [
         'id',
         'mapId',
+        'type',
         'source',
         'target'
     ];

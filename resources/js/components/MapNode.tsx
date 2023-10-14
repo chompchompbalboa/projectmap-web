@@ -36,7 +36,6 @@ const Container = styled.div<ContainerProps>`
     $isSelected ? '2px solid #756eff' : '1px solid #ccc'};
   padding: ${({ $isSelected }: ContainerProps): string =>
     $isSelected ? '4px 9px' : '5px 10px'};
-  border-radius: 2px;
   background: white;
 `
 interface ContainerProps {

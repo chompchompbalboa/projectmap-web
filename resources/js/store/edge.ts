@@ -2,7 +2,7 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Edge as ReactFlowEdge } from 'reactflow'
+import { ConnectionLineType, Edge as ReactFlowEdge } from 'reactflow'
 
 import { Map } from '@/store/map'
 import { Node } from '@/store/node'
@@ -17,6 +17,12 @@ export interface AllEdges {
 export interface Edge {
   id: string
   mapId: Map['id']
+  type: 
+    ConnectionLineType.Bezier | 
+    ConnectionLineType.Straight | 
+    ConnectionLineType.Step | 
+    ConnectionLineType.SmoothStep |
+    ConnectionLineType.SimpleBezier
   source: Node['id']
   target: Node['id']
 }
@@ -28,11 +34,6 @@ export interface EdgeSliceState {
 //-----------------------------------------------------------------------------
 // Local Storage
 //-----------------------------------------------------------------------------
-// Clear Local Storage
-const clearLocalStorage: () => void = () => {
-  localStorage.removeItem('allEdges')
-}
-
 // Save State To Local Storage
 const saveStateToLocalStorage: (state: EdgeSliceState) => void = (state) => {
   localStorage.setItem('allEdges', JSON.stringify(state.allEdges))
@@ -42,12 +43,14 @@ const saveStateToLocalStorage: (state: EdgeSliceState) => void = (state) => {
 export const buildNewEdge = ({
   id,
   mapId,
+  type,
   source,
   target
 }: Partial<Edge>): Edge => {
   return {
     id: id || buildNewId(),
     mapId: mapId || '',
+    type: type || ConnectionLineType.Bezier,
     source: source || '',
     target: target || ''
   }

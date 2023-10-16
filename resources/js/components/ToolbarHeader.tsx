@@ -1,25 +1,17 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Node } from '../store/node'
 import styled from 'styled-components'
 
-import MapNodeDates from './MapNodeDates'
-
-//-----------------------------------------------------------------------------
-// Props
-//-----------------------------------------------------------------------------
-type Props = {
-  nodeId: Node['id']
-}
+import ToolbarHeaderMapName from '@/components/ToolbarHeaderMapName'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-const MapNodeData = ({ nodeId }: Props): JSX.Element => {
+const ToolbarHeader = (): JSX.Element => {
   return (
     <Container>
-      <MapNodeDates nodeId={nodeId} />
+      <ToolbarHeaderMapName />
     </Container>
   )
 }
@@ -29,4 +21,4 @@ const MapNodeData = ({ nodeId }: Props): JSX.Element => {
 //-----------------------------------------------------------------------------
 const Container = styled.div``
 
-export default MapNodeData
+export default ToolbarHeader

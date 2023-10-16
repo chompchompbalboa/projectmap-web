@@ -13,6 +13,8 @@ import Dropdown from '@/components/Dropdown'
 // Props
 //-----------------------------------------------------------------------------
 export interface Props {
+  dropdownLeft?: 'auto' | '0'
+  dropdownRight?: 'auto' | '0'
   valueFontSize?: string
   onDateChange(nextDate: string): void
   formattedDateValue?: string
@@ -22,6 +24,8 @@ export interface Props {
 // Component
 //-----------------------------------------------------------------------------
 export const Datepicker = ({
+  dropdownLeft = '0',
+  dropdownRight = 'auto',
   valueFontSize = '1em',
   onDateChange,
   formattedDateValue = DateTime.now().toFormat(dateFormat),
@@ -77,9 +81,11 @@ export const Datepicker = ({
         {value.toFormat(dateFormat)}
       </Value>
       <Dropdown
+        closeDropdown={() => setIsDropdownVisible(false)}
         containerRef={datepickerContainerRef}
         isDropdownVisible={isDropdownVisible}
-        closeDropdown={() => setIsDropdownVisible(false)}>
+        left={dropdownLeft}
+        right={dropdownRight}>
         <DatepickerHeader>
           <ChangeCurrentMonth
             onClick={() => setCurrentMonth(currentMonth.minus({ months: 1 }))}>
@@ -116,6 +122,7 @@ export const Datepicker = ({
 const Container = styled.div``
 
 const Value = styled.div<ValueProps>`
+  cursor: pointer;
  font-size: ${ ({ $fontSize }: ValueProps) => $fontSize}
 `
 type ValueProps = {

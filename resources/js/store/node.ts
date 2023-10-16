@@ -22,6 +22,7 @@ export interface Node {
   endDate: string
   isStartDateLocked: boolean
   isEndDateLocked: boolean
+  isLabelVisible: boolean
   isStartDateVisible: boolean
   isDurationVisible: boolean
   isEndDateVisible: boolean
@@ -83,6 +84,7 @@ export const buildNewNode = ({
     endDate: endDate || formatDate(defaultEndDate.toISO()),
     isStartDateLocked: false,
     isEndDateLocked: false,
+    isLabelVisible: true,
     isStartDateVisible: true,
     isDurationVisible: true,
     isEndDateVisible: true,

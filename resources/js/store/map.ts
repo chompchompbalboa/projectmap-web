@@ -42,6 +42,18 @@ export const mapSlice = createSlice({
         ...state.allMaps,
         [newMap.id]: newMap
       }
+    },
+    updateMapReducer: (
+      state,
+      action: PayloadAction<{
+        mapId: Map['id']
+        updates: Partial<Map>
+      }>
+    ) => {
+      state.allMaps[action.payload.mapId] = {
+        ...state.allMaps[action.payload.mapId],
+        ...action.payload.updates
+      }
     }
   }
 })
@@ -50,6 +62,7 @@ export const mapSlice = createSlice({
 // Exports
 //-----------------------------------------------------------------------------
 export const {
-  loadMapReducer
+  loadMapReducer,
+  updateMapReducer
 } = mapSlice.actions
 export default mapSlice.reducer

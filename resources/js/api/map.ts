@@ -28,3 +28,16 @@ export const getMap = ({ mapId }: {
     mapEdges: Edge[]
   }>('/api/map/' + mapId)
 }
+
+//-----------------------------------------------------------------------------
+// Update Map
+//-----------------------------------------------------------------------------
+export const updateMap = ({
+  mapId,
+  updates
+}: {
+  mapId: Map['id'],
+  updates: Partial<Map>
+}) => {
+  return axios.patch<Map>('/api/map/' + mapId, updates)
+}

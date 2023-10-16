@@ -3,9 +3,11 @@
 //-----------------------------------------------------------------------------
 import { Node } from 'reactflow'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { updateNode } from '../store/nodeActions'
-import { AppDispatch, AppState } from '../store/store'
+
+import { updateNode } from '@/store/nodeActions'
+import { AppDispatch, AppState } from '@/store/store'
+
+import ContentEditable from '@/components/ContentEditable'
 
 //-----------------------------------------------------------------------------
 // Props
@@ -21,34 +23,29 @@ const MapNodeLabel = ({ nodeId }: Props): JSX.Element => {
   // Redux
   const dispatch = useDispatch<AppDispatch>()
   const nodeLabel = useSelector((state: AppState) => state.node.allNodes[nodeId].label)
+  const nodeIsLabelVisible = useSelector((state: AppState) => state.node.allNodes[nodeId].isLabelVisible)
 
-  // Handle Blur
-  const handleBlur = (e: React.FocusEvent<HTMLDivElement>): void => {
+  // Handle Node Label Update
+  const handleNodeLabelUpdate = (nextNodeLabel: string): void => {
     dispatch(
       updateNode({
         nodeId: nodeId,
-        updates: { label: e.currentTarget.innerText }
+        updates: { label: nextNodeLabel }
       })
     )
   }
   return (
-    <Container
-      className="nodrag" // Required for contentEditable to work inside reactflow
-      contentEditable
-      suppressContentEditableWarning
-      onBlur={handleBlur}
-    >
-      {nodeLabel}
-    </Container>
+    nodeIsLabelVisible
+      ?<ContentEditable
+          focusOnSelect
+          value={nodeLabel}
+          updateValue={handleNodeLabelUpdate}
+          style={{
+            fontSize: '15px',
+            textAlign: 'center'
+          }}/>
+      : <></>
   )
 }
-
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Container = styled.div`
-  cursor: text;
-  text-align: center;
-`
 
 export default MapNodeLabel

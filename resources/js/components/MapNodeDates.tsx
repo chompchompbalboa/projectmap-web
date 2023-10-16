@@ -13,7 +13,8 @@ import {
   getISODurationFromHuman
 } from '@/utils'
 
-import MapNodeDatesDatepicker from '@/components/MapNodeDatesDatepicker'
+import ContentEditable from '@/components/ContentEditable'
+import Datepicker from '@/components/Datepicker'
 
 //-----------------------------------------------------------------------------
 // Props
@@ -40,11 +41,14 @@ const MapNodeDates = ({ nodeId }: Props): JSX.Element => {
   const nodeStartDateLocked = useSelector(
     (state: AppState) => state.node.allNodes[nodeId].isStartDateLocked
   )
-  const nodeStartDateVisible = useSelector(
+  const nodeIsStartDateVisible = useSelector(
     (state: AppState) => state.node.allNodes[nodeId].isStartDateVisible
   )
-  const nodeEndDateVisible = useSelector(
+  const nodeIsEndDateVisible = useSelector(
     (state: AppState) => state.node.allNodes[nodeId].isEndDateVisible
+  )
+  const nodeIsDurationVisible = useSelector(
+    (state: AppState) => state.node.allNodes[nodeId].isDurationVisible
   )
 
   // State
@@ -119,27 +123,34 @@ const MapNodeDates = ({ nodeId }: Props): JSX.Element => {
             {nodeStartDateLocked ? 'L' : 'U'}
           </DateLock>
         )}
-        {nodeStartDateVisible &&
-          <MapNodeDatesDatepicker
-            value={formatDate(nodeStartDate)}
+        {nodeIsStartDateVisible &&
+          <Datepicker
+            formattedDateValue={formatDate(nodeStartDate)}
             onDateChange={(nextDate): void => handleStartDateChange(nextDate)}
+            valueFontSize='12px'
             />
         }
-        {(nodeStartDateVisible || nodeEndDateVisible) && <DateArrow>→</DateArrow>}
-        {nodeEndDateVisible && (
-          <MapNodeDatesDatepicker
-            value={formatDate(nodeEndDate)}
+        {(nodeIsStartDateVisible || nodeIsEndDateVisible) && <DateArrow>→</DateArrow>}
+        {nodeIsEndDateVisible && (
+          <Datepicker
+            dropdownLeft='auto'
+            dropdownRight='0'
+            formattedDateValue={formatDate(nodeEndDate)}
             onDateChange={(nextDate): void => handleEndDateChange(nextDate)}
+            valueFontSize='12px'
           />
         )}
       </Dates>
-      <DurationContainer>
-        <DurationInput
+      {nodeIsDurationVisible &&
+        <ContentEditable
+          focusOnSelect
           value={localNodeDuration}
-          onBlur={(e): void => handleDurationChange(e.currentTarget.value)}
-          onChange={(e): void => setLocalNodeDuration(e.currentTarget.value)}
-        />
-      </DurationContainer>
+          updateValue={handleDurationChange}
+          style={{
+            fontSize: '12px',
+            textAlign: 'center'
+          }}/>
+      }
     </Container>
   )
 }
@@ -164,15 +175,6 @@ const DateArrow = styled.div`
 `
 const DateLock = styled.div`
   cursor: pointer;
-`
-const DurationContainer = styled.div`
-  font-size: 12px;
-`
-const DurationInput = styled.input`
-  font-size: 12px;
-  border: none;
-  width: auto;
-  text-align: center;
 `
 
 export default MapNodeDates

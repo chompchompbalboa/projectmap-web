@@ -18,7 +18,7 @@ class Map extends Model
      * @var array
      */
     protected $attributes = [
-        'name' => 'New Map'
+        'name' => 'Untitled'
     ];
 
     /**
@@ -27,7 +27,8 @@ class Map extends Model
      * @var array
      */
     protected $fillable = [
-        'userId'
+        'userId',
+        'name'
     ];
 
     /**

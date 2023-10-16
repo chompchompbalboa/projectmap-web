@@ -51,6 +51,7 @@ class Node extends Model
         'endDate',
         'isStartDateLocked',
         'isEndDateLocked',
+        'isLabelVisible',
         'isStartDateVisible',
         'isDurationVisible',
         'isEndDateVisible',

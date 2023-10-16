@@ -7,15 +7,14 @@ import api from '@/api'
 
 import { AppState } from '@/store/store'
 import { updateActiveMapId } from '@/store/active'
-import { loadMapReducer, Map } from '@/store/map'
+import { loadMapReducer, Map, updateMapReducer } from '@/store/map'
 import { loadEdges } from '@/store/edgeActions'
 import { loadNodes } from '@/store/nodeActions'
 import { User } from '@/store/user'
 
 //-----------------------------------------------------------------------------
-// Action
-//-----------------------------------------------------------------------------
 // Create Map
+//-----------------------------------------------------------------------------
 export const createMap = createAsyncThunk<
   void,
   { userId: User['id'] },
@@ -38,7 +37,9 @@ export const createMap = createAsyncThunk<
   }
 )
 
+//-----------------------------------------------------------------------------
 // Load Map
+//-----------------------------------------------------------------------------
 export const loadMap = createAsyncThunk<
   void,
   { mapId: Map['id'] },
@@ -66,5 +67,35 @@ export const loadMap = createAsyncThunk<
         // TODO: Return an error message
         console.log('There was an error getting the map')
       })
+  }
+)
+
+//-----------------------------------------------------------------------------
+// Update Map
+//-----------------------------------------------------------------------------
+export const updateMap = createAsyncThunk(
+  'map/updateMap',
+  async (
+    {
+      mapId,
+      updates,
+      skipApiUpdate = false
+    }: {
+      mapId: Map['id']
+      updates: Partial<Map>
+      skipApiUpdate?: boolean
+    },
+    thunkAPI
+  ) => {
+    const { dispatch } = thunkAPI
+    dispatch(
+      updateMapReducer({
+        mapId,
+        updates
+      })
+    )
+    if (!skipApiUpdate) {
+      api.map.updateMap({ mapId, updates })
+    }
   }
 )

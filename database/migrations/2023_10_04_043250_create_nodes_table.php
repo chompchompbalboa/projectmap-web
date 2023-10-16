@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('endDate', 10);
             $table->boolean('isStartDateLocked');
             $table->boolean('isEndDateLocked');
+            $table->boolean('isLabelVisible');
             $table->boolean('isStartDateVisible');
             $table->boolean('isDurationVisible');
             $table->boolean('isEndDateVisible');

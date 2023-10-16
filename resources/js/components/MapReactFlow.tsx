@@ -17,7 +17,8 @@ import ReactFlow, {
   ReactFlowProvider,
   useReactFlow,
   XYPosition,
-  ReactFlowInstance
+  ReactFlowInstance,
+  useOnSelectionChange
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 
@@ -25,6 +26,7 @@ import { AppDispatch, AppState } from '@/store/store'
 import { Map } from '@/store/map'
 import { NodeType } from '@/store/node'
 import { createNode } from '@/store/nodeActions'
+import { updateReactFlowActiveReducer } from '@/store/reactFlow'
 import { 
   onConnect, 
   onConnectEnd, 
@@ -35,6 +37,7 @@ import {
   onNodeDragStop
 } from '@/store/reactFlowActions'
 
+import Actions from '@/components/Actions'
 import MapGroup from '@/components/MapGroup'
 import MapNode from '@/components/MapNode'
 import Toolbar from '@/components/Toolbar'
@@ -70,7 +73,7 @@ function MapReactFlow({
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   // React Flow
-  const { getIntersectingNodes, project } = useReactFlow()
+  const { project } = useReactFlow()
   
   // Get Mouse Position In React Flow Coordinates
   // This is needed when a node is created at the mouse position. Examples
@@ -157,6 +160,17 @@ function MapReactFlow({
     dispatch(onEdgesChange({ changes }))
   }, [])
 
+  // Update selected nodes on selection change
+  useOnSelectionChange({
+    onChange: ({ nodes }) => {
+      dispatch(
+        updateReactFlowActiveReducer({
+          selectedNodes: nodes.map((node) => node.id)
+        })
+      )
+    }
+  })
+
   return (
     <>
       <div ref={reactFlowWrapper} style={{ width: '100vw', height: '100vh' }}>
@@ -182,6 +196,7 @@ function MapReactFlow({
           selectionKeyCode={null}
         >
           <Toolbar />
+          <Actions />
           <Background />
           <Controls />
         </ReactFlow>

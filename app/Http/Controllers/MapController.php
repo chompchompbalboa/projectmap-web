@@ -55,9 +55,9 @@ class MapController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Map $map)
     {
-        //
+        return $map->fill($request->all())->save();
     }
 
     /**

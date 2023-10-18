@@ -24,9 +24,8 @@ import { AppState } from '@/store/store'
 import { formatDate } from '@/utils'
 
 //-----------------------------------------------------------------------------
-// Actions
-//-----------------------------------------------------------------------------
 // Create Node
+//-----------------------------------------------------------------------------
 export const createNode = createAsyncThunk<
   void,
   Partial<Node>,
@@ -56,7 +55,9 @@ export const createNode = createAsyncThunk<
   }
 )
 
+//-----------------------------------------------------------------------------
 // Delete Node
+//-----------------------------------------------------------------------------
 export const deleteNode = createAsyncThunk<
   void,
   { id: Node['id'] },
@@ -68,7 +69,9 @@ export const deleteNode = createAsyncThunk<
   }
 )
 
+//-----------------------------------------------------------------------------
 // Load Nodes
+//-----------------------------------------------------------------------------
 export const loadNodes = createAsyncThunk(
   'node/loadNodes',
   async (
@@ -94,7 +97,9 @@ export const loadNodes = createAsyncThunk(
   }
 )
 
+//-----------------------------------------------------------------------------
 // Update Node
+//-----------------------------------------------------------------------------
 export const updateNode = createAsyncThunk(
   'node/updateNode',
   async (
@@ -122,7 +127,9 @@ export const updateNode = createAsyncThunk(
   }
 )
 
+//-----------------------------------------------------------------------------
 // Update Node Dates
+//-----------------------------------------------------------------------------
 export const updateNodeDates = createAsyncThunk<
   void,
   {
@@ -186,7 +193,49 @@ export const updateNodeDates = createAsyncThunk<
   )
 })
 
+//-----------------------------------------------------------------------------
+// Update Node Style
+//-----------------------------------------------------------------------------
+export const updateNodeStyle = createAsyncThunk<  
+  void,
+  {
+    nodeId: Node['id']
+    styleUpdates: Partial<Node['style']>
+    skipApiUpdate?: boolean
+  },
+  { state: AppState }>(
+  'node/updateNodeStyle',
+  async (
+    {
+      nodeId,
+      styleUpdates,
+      skipApiUpdate = false
+    },
+    thunkAPI
+  ) => {
+    const { dispatch, getState } = thunkAPI
+    const nodeStyle = getState().node.allNodes[nodeId].style
+    const nextNodeStyle = {
+      ...nodeStyle,
+      ...styleUpdates
+    }
+    dispatch(
+      updateNodeReducer({
+        nodeId,
+        updates: {
+          style: nextNodeStyle
+        }
+      })
+    )
+    if (!skipApiUpdate) {
+      api.node.updateNode({ nodeId, updates: { style: nextNodeStyle } })
+    }
+  }
+)
+
+//-----------------------------------------------------------------------------
 // Update Node Successor Dates
+//-----------------------------------------------------------------------------
 export const updateNodeSuccessorDates = createAsyncThunk<
   void,
   {
@@ -232,7 +281,9 @@ export const updateNodeSuccessorDates = createAsyncThunk<
   })
 })
 
+//-----------------------------------------------------------------------------
 // Update Node Dates From Predecessors
+//-----------------------------------------------------------------------------
 export const updateNodeDatesFromPredecessors = createAsyncThunk<
   void,
   {

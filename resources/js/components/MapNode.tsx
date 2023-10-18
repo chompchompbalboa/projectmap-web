@@ -6,6 +6,8 @@ import styled from 'styled-components'
 
 import MapNodeDates from './MapNodeDates'
 import MapNodeLabel from './MapNodeLabel'
+import { useSelector } from 'react-redux'
+import { AppState } from '@/store/store'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -15,8 +17,13 @@ const MapNode = ({
   selected
 }: ReactFlowNodeProps): JSX.Element => {
 
+  // Redux
+  const nodeStyle = useSelector((state: AppState) => state.node.allNodes[id].style)
+
   return (
-    <Container $isSelected={selected}>
+    <Container 
+      $isSelected={selected}
+      style={nodeStyle}>
       <Handle position={Position.Left} type="source" />
       <MapNodeLabel nodeId={id} />
       <MapNodeDates nodeId={id} />

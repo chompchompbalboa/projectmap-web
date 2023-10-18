@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import ToolbarNodeDates from '@/components/ToolbarNodeDates'
 import ToolbarNodeLabel from '@/components/ToolbarNodeLabel'
+import ToolbarNodeStyle from '@/components/ToolbarNodeStyle'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -14,6 +15,7 @@ const ToolbarNode = (): JSX.Element => {
     <Container>
       <ToolbarNodeLabel />
       <ToolbarNodeDates />
+      <ToolbarNodeStyle />
     </Container>
   )
 }

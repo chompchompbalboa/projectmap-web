@@ -15,8 +15,9 @@ export interface Node {
   id: string
   mapId: Map['id']
   type: NodeType
-  // App Properties
+  // Label
   label: string
+  // Dates
   startDate: string
   duration: string
   endDate: string
@@ -28,6 +29,8 @@ export interface Node {
   isEndDateVisible: boolean
   predecessors: Node['id'][]
   successors: Node['id'][]
+  // Style
+  style: React.CSSProperties
   // React Flow Properties
   expandParent: boolean
   parentNode: Node['id'] | undefined
@@ -78,7 +81,9 @@ export const buildNewNode = ({
     id: id || buildNewId(),
     mapId: mapId || '',
     type: type || 'mapNode',
+    // Label
     label: 'Label',
+    // Dates
     startDate: startDate || formatDate(defaultStartDate.toISO()),
     duration: duration || defaultDuration.toISO() as string,
     endDate: endDate || formatDate(defaultEndDate.toISO()),
@@ -91,6 +96,13 @@ export const buildNewNode = ({
     predecessors: predecessors || [],
     successors: successors || [],
     parentNode: parentNode || '',
+    // Style
+    style: {
+      backgroundColor: '#FFFFFF',
+      color: '#000000',
+      fontWeight: 'normal'
+    },
+    // React Flow Properties
     expandParent: true,
     positionX: positionX || 0,
     positionY: positionY || 0,

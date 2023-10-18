@@ -17,7 +17,9 @@ return new class extends Migration
             $table->uuid('mapId');
             $table->uuid('parentNode')->nullable();
             $table->string('type', 50);
+            // Label
             $table->text('label');
+            // Dates
             $table->string('startDate', 10);
             $table->string('duration', 10);
             $table->string('endDate', 10);
@@ -27,6 +29,8 @@ return new class extends Migration
             $table->boolean('isStartDateVisible');
             $table->boolean('isDurationVisible');
             $table->boolean('isEndDateVisible');
+            // Style
+            $table->json('style');
             // React Flow Properties
             $table->boolean('expandParent');
             $table->smallInteger('positionX');

@@ -28,11 +28,14 @@ class Node extends Model
      * @var array
      */
     protected $casts = [
+        // Dates
         'isStartDateLocked' => 'boolean',
         'isEndDateLocked' => 'boolean',
         'isStartDateVisible' => 'boolean',
         'isDurationVisible' => 'boolean',
         'isEndDateVisible' => 'boolean',
+        // Style
+        'style' => 'json'
     ];
 
     /**
@@ -45,7 +48,9 @@ class Node extends Model
         'mapId',
         'parentNode',
         'type',
+        // Label
         'label',
+        // Dates
         'startDate',
         'duration',
         'endDate',
@@ -55,6 +60,9 @@ class Node extends Model
         'isStartDateVisible',
         'isDurationVisible',
         'isEndDateVisible',
+        // Style
+        'style',
+        // React Flow Properties
         'expandParent',
         'positionX',
         'positionY',

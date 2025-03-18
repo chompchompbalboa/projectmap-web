@@ -29,7 +29,7 @@ const initialState: MapSliceState = {
 // Reducers
 //-----------------------------------------------------------------------------
 export const mapSlice = createSlice({
-  name: 'node',
+  name: 'map',
   initialState,
   reducers: {
     // Load Map
@@ -43,6 +43,7 @@ export const mapSlice = createSlice({
         [newMap.id]: newMap
       }
     },
+    // Update Map
     updateMapReducer: (
       state,
       action: PayloadAction<{

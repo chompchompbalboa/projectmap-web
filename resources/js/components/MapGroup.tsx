@@ -1,15 +1,15 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Handle, NodeProps, NodeResizer, Position } from 'reactflow'
+import { Handle, Node, NodeProps, NodeResizer, Position } from '@xyflow/react'
 import styled from 'styled-components'
 
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-type NodeData = {
+type NodeData = Node<{
   label: string
-}
+}>
 
 //-----------------------------------------------------------------------------
 // Component

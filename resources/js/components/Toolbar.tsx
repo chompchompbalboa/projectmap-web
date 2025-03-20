@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Panel } from 'reactflow'
+import { Panel } from '@xyflow/react'
 
 import ToolbarNode from '@/components/ToolbarNode'
 import ToolbarHeader from '@/components/ToolbarHeader'

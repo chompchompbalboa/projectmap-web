@@ -11,7 +11,7 @@ import {
   NodeChange, 
   OnConnectStartParams,
   XYPosition 
-} from 'reactflow'
+} from '@xyflow/react'
 
 import { createEdge, deleteEdge } from '@/store/edgeActions'
 import { createNode, deleteNode, updateNode, updateNodeSuccessorDates } from '@/store/nodeActions'

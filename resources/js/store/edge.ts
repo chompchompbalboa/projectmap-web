@@ -2,7 +2,7 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ConnectionLineType, Edge as ReactFlowEdge } from 'reactflow'
+import { ConnectionLineType, Edge as ReactFlowEdge } from '@xyflow/react'
 
 import { Map } from '@/store/map'
 import { Node } from '@/store/node'

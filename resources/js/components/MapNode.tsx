@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Handle, NodeProps as ReactFlowNodeProps, Position } from 'reactflow'
+import { Handle, NodeProps as ReactFlowNodeProps, Position } from '@xyflow/react'
 import styled from 'styled-components'
 
 import MapNodeDates from './MapNodeDates'

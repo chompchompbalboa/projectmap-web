@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { Panel, Node } from 'reactflow'
+import { Panel, Node } from '@xyflow/react'
 import styled from 'styled-components'
 
 import { TbSquarePlus } from 'react-icons/tb'

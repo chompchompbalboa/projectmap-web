@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 import { useCallback, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ReactFlow, {
+import {
   Background,
   Controls,
   ConnectionLineType,
@@ -17,10 +17,11 @@ import ReactFlow, {
   ReactFlowProvider,
   useReactFlow,
   XYPosition,
+  ReactFlow,
   ReactFlowInstance,
   useOnSelectionChange
-} from 'reactflow'
-import 'reactflow/dist/style.css'
+} from '@xyflow/react'
+import '@xyflow/react/dist/style.css'
 
 import { AppDispatch, AppState } from '@/store/store'
 import { Map } from '@/store/map'
@@ -73,7 +74,7 @@ function MapReactFlow({
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   // React Flow
-  const { project } = useReactFlow()
+  const { screenToFlowPosition } = useReactFlow()
   
   // Get Mouse Position In React Flow Coordinates
   // This is needed when a node is created at the mouse position. Examples
@@ -91,7 +92,7 @@ function MapReactFlow({
       xPositionAdjustment = left
       yPositionAdjustment = top
     }
-    const position: XYPosition = project({
+    const position: XYPosition = screenToFlowPosition({
       x: e.clientX - xPositionAdjustment,
       y: e.clientY - yPositionAdjustment
     })
@@ -109,7 +110,7 @@ function MapReactFlow({
       const position = getMousePositionInReactFlowCoordinates(e as MouseEvent)
       dispatch(onConnectEnd({ nodePosition: position }))
     },
-    [project]
+    [screenToFlowPosition]
   )
   
   // Handle Connect Start

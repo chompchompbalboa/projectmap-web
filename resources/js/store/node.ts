@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { DateTime, Duration } from 'luxon'
-import { Node as ReactFlowNode } from 'reactflow'
+import { Node as ReactFlowNode } from '@xyflow/react'
 
 import { Map } from '@/store/map'
 import { buildNewId, formatDate } from '@/utils'

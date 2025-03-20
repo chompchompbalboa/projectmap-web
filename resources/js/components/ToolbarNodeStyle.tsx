@@ -2,14 +2,15 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { useDispatch, useSelector } from 'react-redux'
+import { FaBold, FaItalic, FaStrikethrough } from 'react-icons/fa'
 
 import { AppDispatch, AppState } from '@/store/store'
 import { Node } from '@/store/node'
 import { updateNodeStyle } from '@/store/nodeActions'
 
 import Colorpicker from '@/components/Colorpicker'
-import ContentEditable from '@/components/ContentEditable'
 import ToolbarNodeData from '@/components/ToolbarNodeData'
+import ToolbarNodeDataButton from '@/components/ToolbarNodeDataButton'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -47,6 +48,7 @@ const ToolbarNodeStyle = (): JSX.Element => {
   return (
     <>
       <ToolbarNodeData
+        isNodeDataVisibilityModifiable={false}
         name={'Background Color'}>
         <Colorpicker
           disabled={selectedNodes.length === 0}
@@ -54,6 +56,7 @@ const ToolbarNodeStyle = (): JSX.Element => {
           updateValue={nextBackgroundColor => updateNodeStyles({ backgroundColor: nextBackgroundColor })}/>
       </ToolbarNodeData>
       <ToolbarNodeData
+        isNodeDataVisibilityModifiable={false}
         name={'Text Color'}>
         <Colorpicker
           defaultValue='#000000'
@@ -62,11 +65,20 @@ const ToolbarNodeStyle = (): JSX.Element => {
           updateValue={nextColor => updateNodeStyles({ color: nextColor })}/>
       </ToolbarNodeData>
       <ToolbarNodeData
-        name={'Font Weight'}>
-        <ContentEditable
-          disabled={selectedNodes.length === 0}
-          value={(style.fontWeight || '') as string}
-          updateValue={nextFontWeight => updateNodeStyles({ fontWeight: nextFontWeight })}/>
+        isNodeDataVisibilityModifiable={false}
+        name={'Font Style'}>
+        <ToolbarNodeDataButton 
+          icon={FaBold}
+          isButtonActive={style.fontWeight === 'bold'}
+          onButtonClick={() => updateNodeStyles({ fontWeight: style.fontWeight === 'bold' ? 'normal' : 'bold' })}/>
+        <ToolbarNodeDataButton 
+          icon={FaItalic}
+          isButtonActive={style.fontStyle === 'italic'}
+          onButtonClick={() => updateNodeStyles({ fontStyle: style.fontStyle === 'italic' ? 'normal' : 'italic' })}/>
+        <ToolbarNodeDataButton 
+          icon={FaStrikethrough}
+          isButtonActive={style.textDecorationLine === 'line-through'}
+          onButtonClick={() => updateNodeStyles({ textDecorationLine: style.textDecorationLine === 'line-through' ? 'none' : 'line-through' })}/>
       </ToolbarNodeData>
     </>
   )

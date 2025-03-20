@@ -13,6 +13,7 @@ import { PiLightbulbLight, PiLightbulbDuotone } from 'react-icons/pi'
 interface Props {
   children: React.ReactNode
   isNodeDataVisible?: boolean
+  isNodeDataVisibilityModifiable?: boolean
   name: string
   onVisibilityClick?(): void
 }
@@ -23,16 +24,21 @@ interface Props {
 const ToolbarNodeData = ({
   children,
   isNodeDataVisible = true,
+  isNodeDataVisibilityModifiable = true,
   name,
   onVisibilityClick = () => {}
 }: Props): JSX.Element => {
   return (
     <Container>
-      <Visibility 
+      <Visibility
+        $isNodeDataVisibilityModifiable={isNodeDataVisibilityModifiable}
         onClick={onVisibilityClick}>
-        {isNodeDataVisible 
-          ? <PiLightbulbDuotone size={15} color={colors.SECONDARY}/> 
-          : <PiLightbulbLight size={15} color={colors.DARK}/>}
+        {isNodeDataVisibilityModifiable
+          ? isNodeDataVisible 
+            ? <PiLightbulbDuotone size={15} color={colors.SECONDARY}/> 
+            : <PiLightbulbLight size={15} color={colors.DARK}/>
+          : ''
+        }
       </Visibility>
       <DataContainer>
         <DataName>{name}</DataName>
@@ -48,17 +54,24 @@ const ToolbarNodeData = ({
 const Container = styled.div`
   position: relative;
   padding: 0.05rem 0;
+  min-height: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `
-const Visibility = styled.div`
-  cursor: pointer;
+const Visibility = styled.div<VisibilityProps>`
+  cursor: ${({ $isNodeDataVisibilityModifiable }: VisibilityProps): string =>
+    $isNodeDataVisibilityModifiable ? 'pointer' : 'auto'};
   margin-right: 0.35rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 1.1rem;
 `
+interface VisibilityProps {
+  readonly $isNodeDataVisibilityModifiable: boolean
+}
+
 const DataContainer = styled.div`
   width: 100%;
   min-height: 1rem;
@@ -72,6 +85,9 @@ const DataName = styled.div`
 const Data = styled.div`
   width: 100%;
   text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 `
 
 export default ToolbarNodeData

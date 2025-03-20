@@ -192,7 +192,7 @@ function MapReactFlow({
           onInit={(value): void => setReactFlowInstance(value)}
           multiSelectionKeyCode={'Shift'}
           panActivationKeyCode={['Space']}
-          panOnDrag={false}
+          panOnDrag={[1]}
           selectionOnDrag={true}
           selectionKeyCode={null}
         >

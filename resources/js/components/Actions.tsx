@@ -2,14 +2,17 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { Panel, Node } from '@xyflow/react'
-import styled from 'styled-components'
 
 import { TbSquarePlus } from 'react-icons/tb'
+
+import ActionsAction from '@/components/ActionsAction'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-const Toolbar = (): JSX.Element => {
+const Actions = (): JSX.Element => {
+
+  // Allow for drag and drop creation of groups and nodes
   const onDragStart = (
     event: React.DragEvent,
     nodeType: Node['type'] = 'mapNode'
@@ -23,52 +26,25 @@ const Toolbar = (): JSX.Element => {
       position="top-right" 
       style={{ 
         margin: '0',
-        marginRight: 'calc(20rem + 1.5rem)',
+        marginRight: 'calc(20rem + 0.5rem)',
         padding: '0', 
       }}>
-      <Actions>
-        <Action
-          draggable
+      <div className='flex flex-column items-end'>
+        <ActionsAction
           onDragStart={(e: React.DragEvent): void => onDragStart(e, 'mapNode')}
         >
           <TbSquarePlus />
-        </Action>
+        </ActionsAction>
         {false && 
-        <Action
-          draggable
+        <ActionsAction
           onDragStart={(e: React.DragEvent): void => onDragStart(e, 'mapGroup')}
         >
           G+
-        </Action>
+        </ActionsAction>
         }
-      </Actions>
+      </div>
     </Panel>
   )
 }
 
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Actions = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`
-const Action = styled.div`
-  cursor: grab;
-  background: white;
-  user-select: none;
-  border: 1px solid #eee;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 5px;
-  margin-top: 0.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    background-color: #eee;
-  }
-`
-
-export default Toolbar
+export default Actions

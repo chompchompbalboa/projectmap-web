@@ -25,15 +25,7 @@ const Toolbar = ({
 }: Props): JSX.Element =>  {
   return (
     <div
-      className='
-        flex justify-center items-center 
-        cursor-grab 
-        select-none
-        mt-0.5
-        size-2
-        bg-white
-        border rounded-sm border-gray-400
-      '
+      className='flex justify-center items-center cursor-grab select-none mt-0.5 size-2 bg-white border rounded-sm border-gray-400'
       draggable
       onDragStart={(e: React.DragEvent): void => onDragStart(e, 'mapNode')}>
       {children}

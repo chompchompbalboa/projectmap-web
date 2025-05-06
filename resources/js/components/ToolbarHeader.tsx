@@ -1,8 +1,6 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import styled from 'styled-components'
-
 import ToolbarHeaderMapName from '@/components/ToolbarHeaderMapName'
 
 //-----------------------------------------------------------------------------
@@ -10,15 +8,10 @@ import ToolbarHeaderMapName from '@/components/ToolbarHeaderMapName'
 //-----------------------------------------------------------------------------
 const ToolbarHeader = (): JSX.Element => {
   return (
-    <Container>
+    <div>
       <ToolbarHeaderMapName />
-    </Container>
+    </div>
   )
 }
-
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Container = styled.div``
 
 export default ToolbarHeader

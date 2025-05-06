@@ -3,7 +3,6 @@
 //-----------------------------------------------------------------------------
 import { AppDispatch, AppState } from '@/store/store'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 
 import { Map } from '@/store/map'
 import { updateMap } from '@/store/mapActions'
@@ -32,7 +31,7 @@ const ToolbarHeaderMapName = (): JSX.Element => {
   }
 
   return (
-    <Container>
+    <div className='pb-0.75'>
       <ContentEditable
         value={(map && map.name) || ''}
         updateValue={updateMapName}
@@ -40,15 +39,8 @@ const ToolbarHeaderMapName = (): JSX.Element => {
           fontSize: '20px',
           fontWeight: 'bold'
         }}/>
-    </Container>
+    </div>
   )
 }
-
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Container = styled.div`
-  padding: 0 0 0.75rem 0;
-`
 
 export default ToolbarHeaderMapName

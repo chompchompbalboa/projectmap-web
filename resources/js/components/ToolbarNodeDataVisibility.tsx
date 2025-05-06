@@ -1,45 +1,43 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import ToolbarNodeDataVisibility from './ToolbarNodeDataVisibility'
+import colors from '@/utils/colors'
+
+import { PiLightbulbLight, PiLightbulbDuotone } from 'react-icons/pi'
 
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
 interface Props {
-  children: React.ReactNode
   isNodeDataVisible?: boolean
   isNodeDataVisibilityModifiable?: boolean
-  name: string
   onVisibilityClick?(): void
 }
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-const ToolbarNodeData = ({
-  children,
+const ToolbarNodeDataVisibility = ({
   isNodeDataVisible = true,
   isNodeDataVisibilityModifiable = true,
-  name,
   onVisibilityClick = () => {}
 }: Props): JSX.Element => {
+
+  // Set cursor type
+  const cursor = isNodeDataVisibilityModifiable ? 'cursor-pointer' : 'cursor-auto'
+
   return (
-    <div className='relative flex flex-row justify-between min-h-1'>
-      <ToolbarNodeDataVisibility
-        isNodeDataVisible={isNodeDataVisible}
-        isNodeDataVisibilityModifiable={isNodeDataVisibilityModifiable}
-        onVisibilityClick={onVisibilityClick}/>
-      <div className='w-full flex flex-row'>
-        <div className='whitespace-nowrap select-none'>
-          {name}
-        </div>
-        <div className='w-full flex flex-row justify-end text-right'>
-          {children}
-        </div>
-      </div>
+    <div
+      className={cursor + ' flex justify-center items-center mr-0.5 w-1'}
+      onClick={onVisibilityClick}>
+      {isNodeDataVisibilityModifiable
+        ? isNodeDataVisible 
+          ? <PiLightbulbDuotone size={15} color={colors.SECONDARY}/> 
+          : <PiLightbulbLight size={15} color={colors.DARK}/>
+        : ''
+      }
     </div>
   )
 }
 
-export default ToolbarNodeData
+export default ToolbarNodeDataVisibility
